@@ -1,13 +1,11 @@
 from flask import Flask
 import os
 from dotenv import load_dotenv
-from config.db import init_db, mysql
+from config.db import init_db
 from flask_jwt_extended import JWTManager
 
-# Importamos los blueprints existentes
-from routes.tareas import tareas_bp
+# Importamos los blueprints
 from routes.usuarios import usuarios_bp
-# ¡IMPORTANTE! Importamos el nuevo blueprint de recetas
 from routes.recetas import recetas_bp
 
 # Cargar variables de entorno
@@ -23,10 +21,8 @@ def create_app():
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET')
     jwt = JWTManager(app)
 
-    # Registrar los blueprints existentes
-    app.register_blueprint(tareas_bp, url_prefix='/tareas')
+    # Registrar los blueprints
     app.register_blueprint(usuarios_bp, url_prefix='/usuarios')
-    # ¡IMPORTANTE! Registramos el nuevo blueprint de recetas
     app.register_blueprint(recetas_bp, url_prefix='/recetas')
 
     return app
